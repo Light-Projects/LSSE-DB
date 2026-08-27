@@ -19,6 +19,6 @@ script_name: "http-request"
 description: "Send HTTP Protocol Raw Requests"
 
 args:
-  required: "--starget,-sp, --file"
-  optional: "--request"
+  required: "--starget, -sp"
+  optional: "--request, --file, --ssl"
   category: "safe/analysis/http_https"

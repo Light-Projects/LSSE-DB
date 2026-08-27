@@ -22,10 +22,12 @@ Other Devs: Adam Boulaaz
 """
 
 from __future__ import annotations
+from confparser import clsse_runner
 
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass
+from LSSE.slist import dscripts,sscripts
 
 red = "\033[31m"
 reset = "\033[0m"
@@ -53,7 +55,7 @@ class ScriptArgs:
     passwordlist: str | None = None
     file: str | None = None
     req: str | None = None
-
+    ssl: bool | None = None
 
 class LSSE:
     """Light-Scan Scripting Engine: looks up a script by name and runs it."""
@@ -104,13 +106,38 @@ class LSSE:
         userlist: str | None = None,
         passwordlist: str | None = None,
         file: str | None = None,
-        req: str | None = None
+        req: str | None = None,
+        ssl: bool | None = None
     ) -> None:
         """Run the script named sname, or exit if there's no such script."""
         handler = self.handlers.get(sname)
         if handler is None:
-            print(f"\n{yellow}[!] Script not found {reset}\n")
-            sys.exit(2)
+            if sname in sscripts or sname in dscripts:
+                clsse_runner(
+                    sname=sname,
+                    ports=ports,
+                    redirect=redirect,
+                    domain=domain,
+                    dns=dns,
+                    wordlist=wordlist,
+                    url=url,
+                    max_pages=max_pages,
+                    max_depth=max_depth,
+                    extensions=extensions,
+                    status_codes=status_codes,
+                    t=t,
+                    user=user,
+                    password=password,
+                    userlist=userlist,
+                    passwordlist=passwordlist,
+                    file=file,
+                    req=req,
+                    ssl=ssl
+                )
+                return
+            else:
+                print(f"\n{yellow}[!] Script not found {reset}\n")
+                sys.exit(2)
 
         handler(
             ScriptArgs(
@@ -130,7 +157,8 @@ class LSSE:
                 userlist=userlist,
                 passwordlist=passwordlist,
                 file=file,
-                req=req
+                req=req,
+                ssl=ssl
             )
         )
 
@@ -170,7 +198,8 @@ class LSSE:
         from LSSE.scripts.safe.analysis.http_https.http_request import HttpRequest
 
         try:
-            HttpRequest(target=a.t,request_file=a.file,raw_request=a.req,port=int(self._ports(a)[0])).start()
+            HttpRequest(target=a.t,request_file=a.file,raw_request=a.req,
+                        port=int(self._ports(a)[0]),ssl=a.ssl).start()
         except Exception as e:
             print(f"\n{red}[!] {e}{reset}")
             sys.exit(1)

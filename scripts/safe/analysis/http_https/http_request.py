@@ -23,28 +23,41 @@ Arguments
 --> Required Arguments
 ----> --starget
 ----> -sp
-----> --file
 --> Optional Arguments
+----> --ssl
+----> --file
 ----> --request
 Categorie :safe/analysis/http_https
 """
 
 import socket
+import ssl
+from banner_grabber.sprobes.http import HTTP_PROBES
 
 class HttpRequest:
-    def __init__(self, target=None, request_file=None, raw_request=None, port=80):
+    def __init__(self, target=None, request_file=None, raw_request=None, ssl=None, port=80):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.target = target
         self.request_file = request_file
         self.raw_request = raw_request
         self.port = port
+        self.ssl = ssl
 
     def start(self):
-        self.sock.connect((self.target, 80))
+        self.sock.connect((self.target, self.port))
         if self.request_file:
             req = open(self.request_file, 'r').read().replace('\\r\\n', '\r\n').replace('\\r','\r').encode()
-        else:
+        elif self.raw_request:
             req = self.raw_request
+        else:
+            req = HTTP_PROBES[1](self.target)
+
+        if self.ssl:
+            context = ssl.create_default_context()
+            context.check_hostname = False
+            context.verify_mode = ssl.CERT_NONE
+            self.sock = context.wrap_socket(self.sock, server_hostname=self.target)
+
         print(f"[+] Request: \n",req,"\n")
         self.sock.send(req)
 
@@ -55,7 +68,10 @@ class HttpRequest:
                 break
             response += chunk
 
-        print(f"[+] Response: ")
-        print(response.decode().split('\r\n\r\n')[0])
+        if response != b'':
+            print(f"[+] Response: ")
+            print(response.decode().split('\r\n\r\n')[0])
+        else:
+            print(f"[!] No Response .. ")
 
         self.sock.close()

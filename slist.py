@@ -17,6 +17,7 @@
 
 import os
 from pathlib import Path
+from confparser import ds_parser
 import yaml
 import sys
 
@@ -25,11 +26,7 @@ green = "\033[32m"
 yellow = "\033[33m"
 red = "\033[31m"
 
-dscripts = ['dns-subdomain-fuzzing','dhcp-discover','http-past-pages','dns-zone-transfer'
-           ,'whois-domain','dns-ns','spider','script','http-dir','dns-lookup','eternalblue',
-            'http-cookie','http-comments']
-sscripts = ['firewall-detection','ssh-brute','ssh-auth-methods','http-request','http-cert',
-            'http-headers','http-methods','http-robots','http-title']
+dscripts ,sscripts= ds_parser()
 
 
 def script_list() -> None:
@@ -83,4 +80,3 @@ def script_help(scriptstr: str) -> None:
     except Exception as e:
         print(e)
         sys.exit(0)
-
