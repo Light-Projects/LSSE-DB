@@ -1,36 +1,23 @@
-import requests
-import zipfile
-import io
 import os
 import shutil
 
 def download_zip():
-    url = f'https://github.com/Light-Projects/LSSE-DB/archive/refs/tags/LSS.zip'
+    try:
+        os.system('git clone https://github.com/Light-Projects/LSSE-DB')
+        shutil.rmtree('LSSE')
 
-    response = requests.get(url)
-    if response.status_code == 200:
-        with zipfile.ZipFile(io.BytesIO(response.content)) as z:
-            z.extractall('.')
-
-        try:
-            os.rename("LSSE-DB-LSS", "LSSE")
-            print("Folder successfully renamed!")
-        except FileNotFoundError:
-            print("Error: The specified source folder does not exist.")
-        except PermissionError:
-            print("Error: You do not have permission to rename this folder.")
-        except OSError:
-            pass
+        old_name = "LSSE-DB"
+        new_name = "LSSE"
 
         try:
-            shutil.rmtree('LSSE-DB-LSS')
+            os.rename(old_name, new_name)
+            print("Directory renamed successfully.")
         except FileNotFoundError:
-            pass
+            print("Error: The source directory was not found.")
+        except FileExistsError:
+            print("Error: A directory with the new name already exists.")
 
+        print(f"Successfully downloaded LSSE database.")
+    except:
+        print(f"[!] Error while downloading LSSE database.")
 
-        print(f"Successfully downloaded and extracted LSSE database.")
-    else:
-        print(f"Failed to download. Status code: {response.status_code}")
-
-
-download_zip()
