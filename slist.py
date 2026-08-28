@@ -27,7 +27,8 @@ yellow = "\033[33m"
 red = "\033[31m"
 
 dscripts ,sscripts= ds_parser()
-
+dscripts = [item.replace(" ", "") for item in dscripts]
+sscripts = [item.replace(" ", "") for item in sscripts]
 
 def script_list() -> None:
     confs = os.listdir(str(Path(__file__).parent) + "/metadata")
