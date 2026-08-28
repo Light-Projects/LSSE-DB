@@ -48,7 +48,7 @@ class HttpRequest:
         if self.request_file:
             req = open(self.request_file, 'r').read().replace('\\r\\n', '\r\n').replace('\\r','\r').encode()
         elif self.raw_request:
-            req = self.raw_request
+            req = self.raw_request.replace('\\r','\r').replace('\\n','\n').encode()
         else:
             req = HTTP_PROBES[1](self.target)
 
