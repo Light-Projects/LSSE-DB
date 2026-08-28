@@ -1,10 +1,16 @@
 import os
-import shutil
 
 def download_zip():
     try:
         os.system('git clone https://github.com/Light-Projects/LSSE-DB')
-        shutil.rmtree('LSSE')
+
+        try:
+            os.rename('LSSE', 'LSSE_old')
+            print("Directory renamed successfully.")
+        except FileNotFoundError:
+            print("Error: The source directory was not found.")
+        except FileExistsError:
+            print("Error: A directory with the new name already exists.")
 
         old_name = "LSSE-DB"
         new_name = "LSSE"
@@ -20,4 +26,3 @@ def download_zip():
         print(f"Successfully downloaded LSSE database.")
     except:
         print(f"[!] Error while downloading LSSE database.")
-
