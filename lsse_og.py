@@ -75,7 +75,7 @@ class LSSE:
             "dns-lookup": self._dns_lookup,
             "dns-zone-transfer": self._dns_zone_transfer,
             "dns-ns": self._dns_ns,
-            "firewall-detection": self._firewall_detection,
+            "firewall-detect": self._firewall_detection,
             "ssh-auth-methods": self._ssh_auth_methods,
             "ssh-brute": self._ssh_brute,
             "whois-domain": self._whois_domain,
