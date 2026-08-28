@@ -19,6 +19,6 @@ script_name: "eternalblue"
 description: "Scan for EternalBlue (CVE-2017-0144) SMBv1 vulnerability ."
 
 args:
-  required: "--starget"
+  required: "--starget, -sp"
   optional: null
   category: "safe/discovery/smb"
