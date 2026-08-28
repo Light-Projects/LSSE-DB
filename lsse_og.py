@@ -83,7 +83,8 @@ class LSSE:
             "eternalblue":self._eternalblue,
             "dhcp-discover":self._dhcp_discover,
             "http-comments":self._http_comments,
-            "http-request":self._http_request
+            "http-request":self._http_request,
+            "ssh-info":self._ssh_info
         }
         self.scripts_list = list(self.handlers)
 
@@ -176,6 +177,16 @@ class LSSE:
         )
 
         threaded_http_title(a.domain, self._ports(a), bool(a.redirect))
+
+    def _ssh_info(self, a: ScriptArgs) -> None:
+        """Grab SSH_MSG_KEXINIT packet and parse it."""
+        from LSSE.scripts.safe.analysis.ssh.ssh_info import SSHRequest
+        try:
+            ssh = SSHRequest(target=a.t,port=int(self._ports(a)[0]))
+            ssh.start()
+        except Exception as e:
+            print(f"\n{red}[!] {e}{reset}")
+            sys.exit(1)
 
     def _eternalblue(self, a: ScriptArgs) -> None:
         """Eternal Blue Exploit CVE-2017-0144"""
