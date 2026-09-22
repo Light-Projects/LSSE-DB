@@ -3,7 +3,7 @@
 ## Overview
 
 <p align="center">
-  <img src="LSSE-Logo.png" style="width: 250px; max-width: 100%; height: auto;" alt="Description">
+  <img src="LSSE-Logo.png" style="width: 350px; max-width: 100%; height: auto;" alt="Description">
 </p>
 
 
