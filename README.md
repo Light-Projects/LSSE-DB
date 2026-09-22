@@ -2,7 +2,9 @@
 
 ## Overview
 
-<img src="LSSE-Logo.png" style="width: 250px; max-width: 100%; height: auto;" alt="Description">
+<p align="center">
+  <img src="LSSE-Logo.png" style="width: 250px; max-width: 100%; height: auto;" alt="Description">
+</p>
 
 
 LSSE (Light-Scan Scripting Engine) is a modular scripting framework that extends Lightscan's capabilities with Python-based scripts. It features a dynamic routing system, metadata-driven discovery, and a GUI manager for easy script creation and management.
