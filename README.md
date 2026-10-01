@@ -1383,9 +1383,6 @@ Both paths produce identical runtime behavior for the end user — the differenc
 
 ---
 
-### NOTE
-- `script_manager.py` is included with https://github.com/Light-Projects/Light-Scan only 
-
 ## Troubleshooting
 
 ### Script Not Showing in `--lsse-lst`
